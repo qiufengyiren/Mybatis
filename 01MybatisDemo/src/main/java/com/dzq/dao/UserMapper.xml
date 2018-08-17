@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace务必和接口的全类名一致 -->
+<mapper namespace="com.dzq.dao.UserMapper">
+    <!--id务必和接口中的方法名称对应
+   如果参数类型是一个对象，那么sql语句中#｛对象的属性名｝
+    -->
+    <!--增加-->
+    <insert id="addUser" parameterType="com.dzq.pojo.User">
+         INSERT INTO `user`(`username`,`password`) VALUES (#{username},#{password})
+    </insert>
+
+    <!--删除-->
+    <delete id="deleteUser">
+        DELETE  FROM user where id=#{xxx}
+    </delete>
+
+    <!--修改-->
+    <update id="updateUser" parameterType="User">
+       UPDATE `user` SET `username`=#{username},`password`=#{password} where id=#{id}
+    </update>
+
+    <!--查询-->
+    <select id="findUserById" resultType="User">
+     SELECT `id`,`username`,`password` FROM `user` WHERE `id`=#{xxx}
+    </select>
+
+    <!--查询 返回list集合-->
+    <select id="findAllUsers" resultType="User">
+     SELECT `id`,`username`,`password` FROM `user`
+    </select>
+</mapper>
