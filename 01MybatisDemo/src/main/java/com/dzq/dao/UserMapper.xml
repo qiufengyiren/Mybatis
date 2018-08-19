@@ -9,7 +9,7 @@
     -->
     <!--增加-->
     <insert id="addUser" parameterType="com.dzq.pojo.User">
-         INSERT INTO `user`(`username`,`password`) VALUES (#{username},#{password})
+         INSERT INTO `user`(`name`,`password`) VALUES (#{username},#{password})
     </insert>
 
     <!--删除-->
@@ -19,16 +19,56 @@
 
     <!--修改-->
     <update id="updateUser" parameterType="User">
-       UPDATE `user` SET `username`=#{username},`password`=#{password} where id=#{id}
+       UPDATE `user` SET `name`=#{username},`password`=#{password} where id=#{id}
     </update>
 
     <!--查询-->
-    <select id="findUserById" resultType="User">
-     SELECT `id`,`username`,`password` FROM `user` WHERE `id`=#{xxx}
+    <select id="findUserById" resultMap="userMap">
+        <!--Sql 的调用 -->
+        <include refid="selectFromUser"></include>
+        WHERE `id`=#{xxx}
     </select>
+    <!--字段和属性名不一样
+    01：使用别名  name as username
+    02：使用resultMap  推荐使用
+    -->
+    <!--02：使用resultMap  推荐使用的方法-->
+    <resultMap id="userMap" type="User">
+        <id property="id" column="id"></id><!--主键-->
+        <result property="username" column="name"></result><!--普通的属性-->
+        <result property="password" column="password"></result>
+    </resultMap>
 
     <!--查询 返回list集合-->
     <select id="findAllUsers" resultType="User">
-     SELECT `id`,`username`,`password` FROM `user`
+     SELECT `id`,`name`,`password` FROM `user`
     </select>
+    <!--查询的SQL语句重复-->
+    <!--Sql 的使用  -->
+    <sql id="selectFromUser">
+           SELECT `id`,`name`,`password` FROM `user`
+
+    </sql>
+    <!--单个查询-->
+    <select id="findOneByTwoCondition" resultMap="userMap">
+        <include refid="selectFromUser"></include>
+        WHERE `name`=#{0}AND `password`=#{1}
+    </select>
+    <!--Param查询-->
+    <select id="findTwoByThreeCondition" resultMap="userMap">
+        <include refid="selectFromUser"></include>
+        WHERE `name`=#{myName}AND `password`=#{myPwd}
+    </select>
+    <!--参数时Map的时候  普通属性的时候 传的是key-->
+    <select id="findMap" resultMap="userMap">
+        <include refid="selectFromUser"></include>
+        WHERE name=#{use.username} AND  password=#{use.password}
+
+    </select>
+    <!--参数时Map的时候  传的是key.属性值-->
+    <select id="findMap1" resultMap="userMap">
+        <include refid="selectFromUser"></include>
+        WHERE `name`=#{name} AND `password`=#{pwd}
+    </select>
+
 </mapper>

@@ -1,6 +1,5 @@
 package com.dzq;
 
-import static org.junit.Assert.assertTrue;
 
 import com.dzq.dao.UserMapper;
 
@@ -11,7 +10,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Unit test for simple App.
@@ -61,6 +62,7 @@ public class AppTest {
             System.out.println("删除失败");
         }
     }
+
     /**
      * 修改
      */
@@ -77,6 +79,7 @@ public class AppTest {
             System.out.println("修改失败");
         }
     }
+
     /**
      * 查询
      */
@@ -85,13 +88,56 @@ public class AppTest {
         User user = mapper.findUserById(3);
         System.out.println(user);
     }
-        /**
-         * 查询所有用户
-         */
-        @Test
-        public void findAllUsers(){
-            UserMapper mapper=sqlSession.getMapper(UserMapper.class);
-            List<User> list=mapper.findAllUsers();
-            System.out.println(list);
-        }
+
+    /**
+     * 查询所有用户
+     */
+    @Test
+    public void findAllUsers() {
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+        List<User> list = mapper.findAllUsers();
+        System.out.println(list);
     }
+
+    /**
+     * 查询 根据name和password来查询
+     */
+    @Test
+    public void findOneByTwoCondition() {
+        User user = mapper.findOneByTwoCondition("测试类", "mapper");
+        System.out.println(user);
+    }
+
+    /**
+     * 查询 @Param来查询
+     */
+    @Test
+    public void findTwoByThreeCondition() {
+        User user = mapper.findTwoByThreeCondition("111", "111111");
+        System.out.println(user);
+    }
+
+    /**
+     * Map的普通对象
+     */
+    @Test
+    public void findMap() {
+        Map<String,Object> map = new HashMap<>();
+        User user = new User();
+        user.setUsername("111");
+        user.setPassword("111111");
+        map.put("use",user);
+        System.out.println(mapper.findMap(map));
+}
+    /**
+     * Map的单个对象
+     */
+    @Test
+    public void findMap1() {
+
+       Map<String,Object> map = new HashMap<>();
+        map.put("name","111");
+        map.put("pwd","111111");
+        System.out.println(mapper.findMap1(map));
+    }
+}
