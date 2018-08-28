@@ -7,11 +7,25 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="01MybatisDemo" />
+        <module name="02dynamicSQL" />
+        <module name="03RealtionShip" />
+        <module name="04ManyToOne" />
+        <module name="05OneToMay" />
+        <module name="06ManyToMany" />
+        <module name="07Cache" />
+        <module name="MybatisProject" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="01MybatisDemo" target="1.7" />
+      <module name="02dynamicSQL" target="1.7" />
+      <module name="03RealtionShip" target="1.7" />
+      <module name="04ManyToOne" target="1.7" />
+      <module name="05OneToMay" target="1.7" />
+      <module name="06ManyToMany" target="1.7" />
+      <module name="07Cache" target="1.7" />
       <module name="Mybatis" target="1.7" />
+      <module name="MybatisProject" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>

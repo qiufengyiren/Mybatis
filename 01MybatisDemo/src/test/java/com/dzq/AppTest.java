@@ -28,11 +28,12 @@ public class AppTest {
         user.setUsername("Mapper测试");
         user.setPassword("测试数据");
         int num = mapper.addUser(user);
-        if (num > 0) {
+        /*if (num > 0) {
             System.out.println("新增成功");
         } else {
             System.out.println("新增失败");
-        }
+        }*/
+        System.out.println(user.getId());
     }
 
     SqlSession sqlSession = null;

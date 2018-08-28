@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace务必和接口的全类名一致 -->
+<mapper namespace="com.dzq.dao.TeacherMapper">
+    <!--1.根据导师的编号查询出 所有老师的信息-->
+    <select id="selectTeachersByTid" resultMap="teacherMap">
+        select id,name  from teacher where tid=#{xxx}
+    </select>
+    <resultMap id="teacherMap" type="com.dzq.pojo.Teacher">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <!--设置  集合属性  我们不断的把查询出来的id当成tid再次查询 ，直到没有结果
+        SELECT  id,NAME  FROM  teacher  WHERE  tid=2
+        SELECT  id,NAME  FROM  teacher  WHERE  tid=4
+        SELECT  id,NAME  FROM  teacher  WHERE  tid=5
+        SELECT  id,NAME  FROM  teacher  WHERE  tid=6-->
+        <collection property="teachers" ofType="Teacher" select="selectTeachersByTid"
+                    column="id"/>
+    </resultMap>
+
+
+    <!--2.根据老师的编号，查询自身信息和所有的导师信息-->
+    <select id="selectByTeacherId" resultMap="teacherIdMap">
+        select id,name,tid  from teacher  where id=#{xxx}
+    </select>
+
+
+    <resultMap id="teacherIdMap" type="com.dzq.pojo.Teacher">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <!--设置  集合属性  我们不断的把查询出来的tid当成id再次查询 ，直到没有结果
+         SELECT  id,NAME,tid  FROM  teacher  WHERE  id=6
+        SELECT  id,NAME,tid  FROM  teacher  WHERE  id=5
+        SELECT  id,NAME,tid  FROM  teacher  WHERE  id=4
+        SELECT  id,NAME,tid  FROM  teacher  WHERE  id=2
+        SELECT  id,NAME,tid  FROM  teacher  WHERE  id=0
+         -->
+        <collection property="teachers" ofType="Teacher" select="selectByTeacherId"
+                    column="tid"/>
+    </resultMap>
+
+
+</mapper>

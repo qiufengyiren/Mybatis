@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace务必和接口的全类名一致 -->
+<mapper namespace="com.dzq.dao.UserMapper">
+    <resultMap id="myUserMap" type="com.dzq.pojo.Users">
+        <id property="id" column="id"></id>
+        <result property="username" column="name"></result>
+        <result property="password" column="password"></result>
+    </resultMap>
+    <!--if可以匹配多次
+    /**
+    *if中的书写的是属性值
+    *if节点中书写的是字段名
+     -->
+    <select id="findUsersByCondition" parameterType="com.dzq.pojo.Users" resultMap="myUserMap">
+        SELECT `id`,`name`,`password` FROM `user`
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="username!=null and username!=''">
+                and name like concat ('%',#{username},'%')
+            </if>
+            <if test="password!=null and password!=''">
+                and password =#{password}
+            </if>
+        </trim>
+    </select>
+
+    <!--修改 update  set+if+trim-->
+    <update id="updateBySet" parameterType="com.dzq.pojo.Users">
+        UPDATE `user`
+        <trim prefix="set" suffixOverrides=",">
+            <if test="username!=null and username!=''">
+                name=#{username},
+            </if>
+            <if test="password!=null and password!=''">
+                password =#{password},
+            </if>
+        </trim>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+
+    <!--choose +when +otherwise-->
+    <select id="selectByChoose" parameterType="com.dzq.pojo.Users" resultMap="myUserMap">
+        SELECT `id`,`name`,`password` FROM `user`
+        <where>
+            <choose>
+                <when test="username!=null and username!=''">
+                    and name like concat('%',#{username},'%')
+                </when>
+                <when test="password!=null and password!=''">
+                    and password =#{password}
+                </when>
+                <otherwise>
+                    id=#{id}
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+
+    <insert id="insertRole" parameterType="com.dzq.pojo.Users" useGeneratedKeys="true" keyProperty="id">
+        <selectKey keyProperty="id" resultType="int" order="BEFORE">
+            SELECT IF(MAX(id) IS NULL,1,MAX(id)+2) AS id FROM `user`
+        </selectKey>
+        INSERT INTO `user` (`id`,`name`,`password`) VALUES (#{id},#{name},#{`password`})
+    </insert>
+
+
+    <!--数组遍历-->
+    <select id="selectByArray" resultMap="myUserMap">
+        <include refid="selectAll"></include>
+        <where>
+            <if test="array.length>0">
+                id IN
+                <foreach collection="array" open="(" close=")" separator="," item="myId">
+                    #{myId}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+
+    <sql id="selectAll">
+      SELECT `id`,`name`,`password` FROM `user`
+    </sql>
+
+    <!--list集合中是单一类型-->
+    <select id="selectByList" resultMap="myUserMap">
+        <include refid="selectAll"/>
+        <where>
+            <if test="list.size>0">
+                id IN
+                <foreach collection="list" open="(" close=")" separator="," item="myId">
+                    #{myId}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!--list集合中是对象类型-->
+    <select id="selectByListUser" resultMap="myUserMap">
+        <include refid="selectAll"></include>
+        <where>
+            <if test="list.size>0">
+                id IN
+                <foreach collection="list" open="(" close=")" separator="," item="myId">
+                    #{myId.id}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+
+    <!--添加用户信息-->
+    <insert id="selectAddUser">
+        INSERT INTO `user`(`name`,`password`) VALUES
+        <foreach collection="list" item="user" separator=",">
+            (#{user.username},#{user.password})
+        </foreach>
+    </insert>
+
+
+
+    <!--Map集合 查看用户信息 单一类型
+    01：获取key #{mykey} 把key作为参数
+    02：获取value 把value作为参数
+    -->
+    <select id="selectByMap" resultMap="myUserMap">
+        <include refid="selectAll" ></include>
+        <where>
+            <if test="myMap.keys.size>0">
+                id IN
+                <foreach collection="myMap.keys" open="(" close=")" separator="," item="myKey">
+                    #{myMap[${myKey}]}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+
+
+    <!--遍历map集合  value是一个对象
+    myMap是map集合的名称
+    ${myKey}是map的key
+    #{myMap[${myKey}]}是map的key对应的value是一个对象
+    #{myMap[${myKey}].id}是一个对象的属性-->
+
+    <select id="selectByMapUser" resultMap="myUserMap">
+
+        <include refid="selectAll" ></include>
+        <where>
+            <if test="myMap.keys.size>0">
+                id IN
+                <foreach collection="myMap.keys" item="myKey" open="(" close=")" separator=",">
+                    #{myMap[${myKey}].id}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+</mapper>

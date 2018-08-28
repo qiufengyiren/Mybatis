@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace务必和接口的全类名一致 -->
+<mapper namespace="com.dzq.dao.StudentMapper">
+    <!--开启二级缓存-->
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache" readOnly="true" flushInterval="5000"></cache>
+    <!--查询-->
+    <select id="selectStudentById" resultType="com.dzq.pojo.Student" useCache="true">
+        SELECT `sid`,`sname`,`age` FROM `student`
+        <where>
+            sid=#{xxx}
+        </where>
+    </select>
+
+
+    <!--修改
+    修改的是数据库的数据信息 再次查询查询的依然是数据库的信息 但是缓存中的数据信息是否会改变
+    验证是否会影响缓存中的数据信息-->
+
+    <update id="updateStudent" parameterType="com.dzq.pojo.Student" flushCache="false">
+        UPDATE `student` SET `sname`=#{sName}
+        <where>
+            `sid`=#{sId}
+        </where>
+    </update>
+
+    <!--添加-->
+    <insert id="addStudent" parameterType="com.dzq.pojo.Student">
+        INSERT into `student` values (#{sId},#{sName},#{age})
+    </insert>
+
+    <!--删除-->
+    <delete id="deleteStudent" parameterType="com.dzq.pojo.Student">
+        DELETE FROM `student`
+        <where>
+            `sid`=#{sId}
+        </where>
+    </delete>
+</mapper>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace务必和接口的全类名一致 -->
+<mapper namespace="com.dzq.dao.ContryMapper">
+    <!--延迟加载=====根据国家的Id查询国家的信息和对应的省会信息
+    国家Country表
+    -->
+    <select id="selectByCountryByCid" resultMap="myCountryMap">
+        SELECT `cid`,`cname` FROM `country` as c
+        <where>
+            c.`cid`=#{xxx}
+        </where>
+    </select>
+
+    <!--根据国家的Id查询国家的信息和对应的省会信息-->
+    <select id="selectByprovincialByCid" resultMap="myCountryMap">
+        SELECT `pid`,`pname` FROM `provincial` as p
+        <where>
+            p.`countryid`=#{xxx}
+        </where>
+    </select>
+    <!--创建country的map映射-->
+    <resultMap id="myCountryMap" type="com.dzq.pojo.Country">
+        <id property="cId" column="cid"/>
+        <result property="cName" column="cname"/>
+
+        <!--集合属性的赋 值
+        provincials：集合属性名称
+        ofType：集合中的元素类型
+        -->
+        <collection property="provincials" ofType="com.dzq.pojo.Provincial" select="selectByprovincialByCid"
+                    column="cid"/>
+    </resultMap>
+</mapper>

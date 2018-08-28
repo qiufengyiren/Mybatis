@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace务必和接口的全类名一致 -->
+<mapper namespace="com.dzq.dao.ContryMapper">
+
+    <!--sql导-->
+    <sql id="selectAll">
+      SELECT `id`,`name`,`password` FROM `user`
+    </sql>
+
+    <!--只查询id的省会信息-->
+    <select id="selectByProvincialByPid" resultMap="myProvincialMap">
+        SELECT `pid`,`pname` ,`countryid` FROM `provincial`
+        <where>
+            `pid`=#{xxx}
+        </where>
+    </select>
+
+    <!--只查询国家-->
+    <select id="selectByCountryByCid" resultType="com.dzq.pojo.Country">
+        SELECT `cid`,`cname` FROM `country`
+        <where>
+            `cid`=#{xxx}
+        </where>
+    </select>
+
+    <!--域属性-->
+    <resultMap id="myProvincialMap" type="com.dzq.pojo.Provincial">
+        <id property="pId" column="pid"/>
+        <result property="pName" column="pname"/>
+        <association property="country" javaType="Country" select="selectByCountryByCid"
+                     column="countryid"></association>
+    </resultMap>
+</mapper>

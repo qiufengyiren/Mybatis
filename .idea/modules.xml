@@ -3,7 +3,14 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/01MybatisDemo/01MybatisDemo.iml" filepath="$PROJECT_DIR$/01MybatisDemo/01MybatisDemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02dynamicSQL/02dynamicSQL.iml" filepath="$PROJECT_DIR$/02dynamicSQL/02dynamicSQL.iml" />
+      <module fileurl="file://$PROJECT_DIR$/03RealtionShip/03RealtionShip.iml" filepath="$PROJECT_DIR$/03RealtionShip/03RealtionShip.iml" />
+      <module fileurl="file://$PROJECT_DIR$/04ManyToOne/04ManyToOne.iml" filepath="$PROJECT_DIR$/04ManyToOne/04ManyToOne.iml" />
+      <module fileurl="file://$PROJECT_DIR$/05OneToMay/05OneToMay.iml" filepath="$PROJECT_DIR$/05OneToMay/05OneToMay.iml" />
+      <module fileurl="file://$PROJECT_DIR$/06ManyToMany/06ManyToMany.iml" filepath="$PROJECT_DIR$/06ManyToMany/06ManyToMany.iml" />
+      <module fileurl="file://$PROJECT_DIR$/07Cache/07Cache.iml" filepath="$PROJECT_DIR$/07Cache/07Cache.iml" />
       <module fileurl="file://$PROJECT_DIR$/Mybatis.iml" filepath="$PROJECT_DIR$/Mybatis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MybatisProject/MybatisProject.iml" filepath="$PROJECT_DIR$/MybatisProject/MybatisProject.iml" />
     </modules>
   </component>
 </project>

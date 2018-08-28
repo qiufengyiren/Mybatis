@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace务必和接口的全类名一致 -->
+<mapper namespace="com.dzq.dao.UserMapper">
+    <!--查询的SQL语句重复-->
+    <!--Sql 的使用  -->
+    <sql id="selectFromUser">
+        SELECT `id`,`name`,`password` FROM `user`
+    </sql>
+    <!--登录-->
+    <select id="Login" parameterType="com.dzq.pojo.Users" resultType="Integer">
+        SELECT COUNT(*) FROM `user`
+        WHERE `username`=#{myName} AND `password`=#{myPwd}
+    </select>
+    <!--查询所有对象-->
+    <select id="FindAll" resultMap="userMap">
+        SELECT `id`,`username`,`password` FROM `user`
+    </select>
+
+    <!--字段和属性名不一样
+   01：使用别名  name as username
+   02：使用resultMap  推荐使用
+   -->
+    <!--02：使用resultMap  推荐使用的方法-->
+    <resultMap id="userMap" type="Users">
+        <id property="id" column="id"></id><!--主键-->
+        <result property="username" column="username"></result><!--普通的属性-->
+        <result property="password" column="password"></result>
+    </resultMap>
+    <!--根据id删除指定对象-->
+    <delete id="deleteUsers" >
+          DELETE  FROM user where id=#{xxx}
+    </delete>
+    <!--根据id查询对象-->
+    <select id="FindUsers" resultType="com.dzq.pojo.Users">
+        SELECT  * FROM USER WHERE id=#{xxx}
+    </select>
+    <!--根据id修改指定的对象-->
+    <update id="updateUsers" parameterType="com.dzq.pojo.Users">
+   UPDATE `user` SET `username`=#{username},`password`=#{password} where id=#{id}
+    </update>
+    <!--添加对象-->
+    <insert id="addUsers" parameterType="com.dzq.pojo.Users">
+          INSERT INTO `user`(`username`,`password`) VALUES (#{username},#{password})
+    </insert>
+</mapper>

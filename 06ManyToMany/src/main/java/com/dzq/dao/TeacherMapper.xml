@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace务必和接口的全类名一致 -->
+<mapper namespace="com.dzq.dao.TeacherMapper">
+
+    <!--根据学生的编号，查询自身信息和所有的老师信息
+    #  查询 学号是3的学生 对应的 所有老师信息
+SELECT s.sid,t.id,sname,NAME FROM student s,teacher t,middle m
+WHERE   s.`sid`=m.`sid` AND t.`id`=m.`tid`
+AND s.`sid`=3
+    -->
+    <select id="selectTeachersBySid" resultMap="studentMap">
+        SELECT s.sid,t.id,sname,NAME FROM student s,teacher t,middle m
+        WHERE   s.`sid`=m.`sid` AND t.`id`=m.`tid`
+        AND s.`sid`=#{xxx}
+    </select>
+
+    <resultMap id="studentMap" type="com.dzq.pojo.Student">
+        <id property="sId" column="sId"/>
+        <result property="sName" column="sName"/>
+        <!--一个学生对应多个老师-->
+        <collection property="teachers" ofType="com.dzq.pojo.Teacher">
+            <id property="id" column="id"/>
+            <result property="name" column="name"/>
+        </collection>
+    </resultMap>
+
+
+
+    <!--根据老师编号  查询处所有学生信息-->
+    <select id="selectStudentsByTid" resultMap="teacherMap">
+        SELECT s.sid,t.id,sname,NAME FROM student s,teacher t,middle m
+        WHERE   s.`sid`=m.`sid` AND t.`id`=m.`tid`
+        AND  t.id=#{xxx}
+    </select>
+
+    <resultMap id="teacherMap" type="com.dzq.pojo.Teacher">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <!--一个学生对应多个老师-->
+        <collection property="students" ofType="com.dzq.pojo.Student">
+            <id property="sId" column="sId"/>
+            <result property="sName" column="sName"/>
+        </collection>
+    </resultMap>
+
+</mapper>
+
+

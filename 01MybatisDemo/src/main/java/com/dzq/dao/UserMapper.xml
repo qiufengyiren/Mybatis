@@ -9,6 +9,9 @@
     -->
     <!--增加-->
     <insert id="addUser" parameterType="com.dzq.pojo.User">
+<selectKey resultType="int" keyProperty="id" order="AFTER">
+    SELECT LAST_INSERT_ID()
+</selectKey>
          INSERT INTO `user`(`name`,`password`) VALUES (#{username},#{password})
     </insert>
 
@@ -47,7 +50,6 @@
     <!--Sql 的使用  -->
     <sql id="selectFromUser">
            SELECT `id`,`name`,`password` FROM `user`
-
     </sql>
     <!--单个查询-->
     <select id="findOneByTwoCondition" resultMap="userMap">

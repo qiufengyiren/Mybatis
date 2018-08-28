@@ -10,6 +10,14 @@
   <version>1.0-SNAPSHOT</version>
   <modules>
     <module>01MybatisDemo</module>
+      <module>MybatisProject</module>
+      <module>02dynamicSQL</module>
+      <module>03RealtionShip</module>
+      <module>04ManyToOne</module>
+      <module>05OneToMay</module>
+    <module>06ManyToMany</module>
+      <module>04ManyToOne</module>
+      <module>07Cache</module>
   </modules>
 
   <name>Mybatis</name>
@@ -82,6 +90,19 @@
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
       <version>5.1.6</version>
+    </dependency>
+
+    <!--引入需要的ehcache插件-->
+    <dependency>
+      <groupId>net.sf.ehcache</groupId>
+      <artifactId>ehcache</artifactId>
+      <version>1.2.3</version>
+    </dependency>
+    <!--mybatis整合ehcache的jar-->
+    <dependency>
+      <groupId>org.mybatis</groupId>
+      <artifactId>mybatis-ehcache</artifactId>
+      <version>1.0.0</version>
     </dependency>
   </dependencies>
 
